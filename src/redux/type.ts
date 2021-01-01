@@ -5,9 +5,9 @@ export interface CountryItemT {
 
 export interface CountryT {
   status: "SUCCESS" | "LOADING" | "FAILED" | null;
-  list: CountryItemT[];
+  data: CountryItemT;
 }
 
 export interface RootStateT {
-  countries: CountryT;
+  currentPage: CountryT;
 }

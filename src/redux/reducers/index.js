@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux';
-import countries from './countries'
+import { combineReducers } from "redux";
+import currentPage from "./currentPage";
 
 export default combineReducers({
-  countries,
-})
+  currentPage,
+});
