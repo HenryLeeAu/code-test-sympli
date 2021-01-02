@@ -48,9 +48,13 @@ const App = () => {
     });
   };
 
-  const mapFilmsTitleArray = selectedData?.films.map((filmUrl) => {
-    return findMatchedFilm(filmUrl)?.title || "";
-  });
+  const handleOnModalClose = () => {
+    setSelectedData(null);
+  };
+
+  const mapFilmsTitleArray = selectedData?.films.map(
+    (filmUrl) => findMatchedFilm(filmUrl)?.title || ""
+  );
 
   useEffect(() => {
     dispatch(getInitialPage());
@@ -70,7 +74,7 @@ const App = () => {
           />
         </>
       </StatusWrapper>
-      <Modal isOpen={!!selectedData} onClose={() => setSelectedData(null)}>
+      <Modal isOpen={!!selectedData} onClose={handleOnModalClose}>
         <PopupContent
           name={selectedData?.name}
           height={selectedData?.height}

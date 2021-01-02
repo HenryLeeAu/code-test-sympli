@@ -1,3 +1,10 @@
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  display: grid;
+  gap: 10px;
+`;
+
 const PopupContent = ({
   name = "",
   height = "",
@@ -5,22 +12,24 @@ const PopupContent = ({
   gender = "",
   films = [],
 }) => (
-  <div data-testid="modal">
-    <div>{name}</div>
-    <div>{height}</div>
-    <div>{birth}</div>
-    <div>{gender}</div>
-    <div>List of films: </div>
-    <ul>
-      {films
-        .filter((film) => !!film)
-        .map((film) => (
-          <li data-testid="film-item" key={`${film}`}>
-            {film}
-          </li>
-        ))}
-    </ul>
-  </div>
+  <Wrapper data-testid="modal">
+    <div>Name: {name}</div>
+    <div>Height: {height}</div>
+    <div>Birth: {birth}</div>
+    <div>Gender: {gender}</div>
+    <div>
+      List of films:
+      <ul>
+        {films
+          .filter((film) => !!film)
+          .map((film) => (
+            <li data-testid="film-item" key={`${film}`}>
+              {film}
+            </li>
+          ))}
+      </ul>
+    </div>
+  </Wrapper>
 );
 
 export default PopupContent;

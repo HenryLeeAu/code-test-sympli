@@ -9,9 +9,9 @@ import reducers from "./redux/reducers";
 import App from "./App";
 
 describe("<App />", () => {
-  const tarUrl = "https://swapi.dev/api/people";
+  const peopleUrl = "https://swapi.dev/api/people";
   const filmUrl = "https://swapi.dev/api/films/1";
-  const resData = {
+  const resPeople = {
     next: "http://swapi.dev/api/people/?page=2",
     previous: null,
     results: [
@@ -47,12 +47,11 @@ describe("<App />", () => {
     url: filmUrl,
   };
 
-  const initStore = () => {
-    return createStore(reducers, applyMiddleware(thunk));
-  };
+  const initStore = () => createStore(reducers, applyMiddleware(thunk));
+
   const handlers = [
-    rest.get(tarUrl, (req, res, ctx) => {
-      return res(ctx.json(resData));
+    rest.get(peopleUrl, (req, res, ctx) => {
+      return res(ctx.json(resPeople));
     }),
     rest.get(filmUrl, (req, res, ctx) => {
       return res(ctx.json(resFilm));
@@ -78,7 +77,7 @@ describe("<App />", () => {
 
   it("renders failed screen", async () => {
     server.use(
-      rest.get(tarUrl, (res, ctx) => {
+      rest.get(peopleUrl, (res, ctx) => {
         return res(ctx.status(500));
       })
     );
@@ -94,7 +93,7 @@ describe("<App />", () => {
     });
   });
 
-  it("open and close modal", async () => {
+  it("click item to open modal and then close modal", async () => {
     const { queryByTestId, getAllByTestId, queryByText } = render(
       <Provider store={initStore()}>
         <App />

@@ -18,6 +18,8 @@ const Content = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  padding: 10px;
+  border-radius: 4px;
 `;
 
 const Modal = ({ isOpen, children, onClose }) => {

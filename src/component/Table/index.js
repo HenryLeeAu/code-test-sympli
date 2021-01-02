@@ -1,4 +1,33 @@
+import styled from "styled-components";
+
 import Item from "./Item";
+
+const Wrapper = styled.div`
+  margin: 10px;
+  border: 1px solid #ccc;
+`;
+
+const Row = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  border-top: ${({ heading }) => `${heading ? 0 : 1}px solid #ccc`};
+  background: ${({ heading }) => (heading ? "#f3f3f3" : "#fff")};
+`;
+
+const Col = styled.div`
+  padding: 10px;
+`;
+
+const Button = styled.button`
+  font-size: 14px;
+  display: inline-block;
+  margin: 0 10px 10px 0;
+`;
+
+const Footer = styled.div`
+  text-align: right;
+`;
 
 const Table = ({
   list,
@@ -8,27 +37,24 @@ const Table = ({
   enableNext,
   onClick,
 }) => {
-  const handleOnClick = (targetItem) => {
-    onClick(targetItem);
-  };
-
   return (
     <>
-      <div data-testid="table">
+      <Wrapper data-testid="table">
+        <Row heading>
+          <Col>Name</Col>
+          <Col>Height</Col>
+          <Col>Mass</Col>
+        </Row>
         {list.map((item) => (
-          <div
-            key={item.name}
-            onClick={() => handleOnClick(item)}
-            data-testid="row"
-          >
+          <Row key={item.name} onClick={() => onClick(item)} data-testid="row">
             <Item name={item.name} height={item.height} mass={item.mass} />
-          </div>
+          </Row>
         ))}
-      </div>
-      <div>
-        {enablePrev && <div onClick={clickPrevious}>Prev</div>}
-        {enableNext && <div onClick={clickNext}>Next </div>}
-      </div>
+      </Wrapper>
+      <Footer>
+        {enablePrev && <Button onClick={clickPrevious}>Prev</Button>}
+        {enableNext && <Button onClick={clickNext}>Next </Button>}
+      </Footer>
     </>
   );
 };
