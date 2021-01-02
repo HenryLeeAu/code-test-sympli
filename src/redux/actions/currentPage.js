@@ -19,7 +19,6 @@ const updateCurrentPage = (pageContent) => {
 
 const fetchPageContent = (url) => (dispatch) => {
   dispatch(updateLoadingStatus("LOADING"));
-
   axios
     .get(url)
     .then(({ data }) => {

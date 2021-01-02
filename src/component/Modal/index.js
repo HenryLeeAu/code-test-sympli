@@ -27,9 +27,10 @@ const Modal = ({ isOpen, children, onClose }) => {
 
   return isOpen ? (
     <Wrapper>
-      <Content>{children}</Content>
-
-      <div onClick={onCloseHandler}>Close</div>
+      <Content>
+        <div>{children}</div>
+        <button onClick={onCloseHandler}>Close</button>
+      </Content>
     </Wrapper>
   ) : null;
 };

@@ -14,9 +14,13 @@ const Table = ({
 
   return (
     <>
-      <div>
+      <div data-testid="table">
         {list.map((item) => (
-          <div key={item.name} onClick={() => handleOnClick(item)}>
+          <div
+            key={item.name}
+            onClick={() => handleOnClick(item)}
+            data-testid="row"
+          >
             <Item name={item.name} height={item.height} mass={item.mass} />
           </div>
         ))}

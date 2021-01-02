@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -7,9 +7,12 @@ import {
   getNextPage,
 } from "./redux/actions/currentPage";
 
+import { getFilmInfo } from "./redux/actions/fetchedFilms";
+
 import Table from "./component/Table";
 import Modal from "./component/Modal";
 import StatusWrapper from "./component/StatusWrapper";
+import PopupContent from "./component/PopupContent";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,8 +22,9 @@ const App = () => {
   const list = useSelector((state) => state.currentPage.data.results);
   const enablePrev = useSelector((state) => !!state.currentPage.data.previous);
   const enableNext = useSelector((state) => !!state.currentPage.data.next);
+  const fetchedFilms = useSelector((state) => state.fetchedFilms);
 
-  const [selectedData, setSelectedData] = React.useState(null);
+  const [selectedData, setSelectedData] = useState(null);
 
   const clickNext = () => {
     dispatch(getNextPage());
@@ -30,7 +34,25 @@ const App = () => {
     dispatch(getPreviousPage());
   };
 
-  React.useEffect(() => {
+  const findMatchedFilm = (filmUrl) =>
+    fetchedFilms.find(({ url }) => url === filmUrl);
+
+  const handleOnRowClick = (obj) => {
+    setSelectedData(obj);
+
+    obj.films.forEach((filmUrl) => {
+      //fetch Film info if it's not in fetchedFilms
+      if (!findMatchedFilm(filmUrl)) {
+        dispatch(getFilmInfo(filmUrl));
+      }
+    });
+  };
+
+  const mapFilmsTitleArray = selectedData?.films.map((filmUrl) => {
+    return findMatchedFilm(filmUrl)?.title || "";
+  });
+
+  useEffect(() => {
     dispatch(getInitialPage());
   }, [dispatch]);
 
@@ -44,14 +66,19 @@ const App = () => {
             clickPrevious={clickPrevious}
             enablePrev={enablePrev}
             enableNext={enableNext}
-            onClick={(obj) => setSelectedData(obj)}
+            onClick={handleOnRowClick}
           />
         </>
       </StatusWrapper>
-      <Modal
-        isOpen={!!selectedData}
-        onClose={() => setSelectedData(null)}
-      ></Modal>
+      <Modal isOpen={!!selectedData} onClose={() => setSelectedData(null)}>
+        <PopupContent
+          name={selectedData?.name}
+          height={selectedData?.height}
+          birth={selectedData?.birth_year}
+          gender={selectedData?.gender}
+          films={mapFilmsTitleArray}
+        />
+      </Modal>
     </>
   );
 };
