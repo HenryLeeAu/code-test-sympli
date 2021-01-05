@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styled from "styled-components";
 
 const Col = styled.div`
@@ -12,4 +13,4 @@ const Item = ({ name, height, mass }) => (
   </>
 );
 
-export default Item;
+export default memo(Item);

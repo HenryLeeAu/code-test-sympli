@@ -22,6 +22,7 @@ const App = () => {
   const list = useSelector((state) => state.currentPage.data.results);
   const enablePrev = useSelector((state) => !!state.currentPage.data.previous);
   const enableNext = useSelector((state) => !!state.currentPage.data.next);
+
   const fetchedFilms = useSelector((state) => state.fetchedFilms);
 
   const [selectedData, setSelectedData] = useState(null);
@@ -63,16 +64,14 @@ const App = () => {
   return (
     <>
       <StatusWrapper loadingStatus={loadingStatus}>
-        <>
-          <Table
-            list={list}
-            clickNext={clickNext}
-            clickPrevious={clickPrevious}
-            enablePrev={enablePrev}
-            enableNext={enableNext}
-            onClick={handleOnRowClick}
-          />
-        </>
+        <Table
+          list={list}
+          clickNext={clickNext}
+          clickPrevious={clickPrevious}
+          enablePrev={enablePrev}
+          enableNext={enableNext}
+          onClick={handleOnRowClick}
+        />
       </StatusWrapper>
       <Modal isOpen={!!selectedData} onClose={handleOnModalClose}>
         <PopupContent
